@@ -17,7 +17,7 @@ import DepositForm from "./pages/DepositPage.js";
 import TransferForm from "./pages/TransferPage.js";
 
 const httpLink = createHttpLink({
-	uri: "https://bankbankend2.onrender.com",
+	uri: "https://bankbankend2.onrender.com/graphql",
 });
 const authLink = setContext((_, { headers }) => {
 	// Get the authentication token from wherever you've stored it
@@ -32,7 +32,7 @@ const authLink = setContext((_, { headers }) => {
 	};
 });
 const client = new ApolloClient({
-	link: authLink.concat(httpLink),
+	link: httpLink,
 	cache: new InMemoryCache(),
 });
 function App() {
