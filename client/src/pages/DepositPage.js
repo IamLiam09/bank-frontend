@@ -4,6 +4,10 @@ import { DEPOSIT_USER_MUTATION } from "../GraphQL/DepositMutation";
 import { Link } from "react-router-dom";
 
 function DepositForm(props) {
+	const token = localStorage.getItem("authToken");
+	if (!token) {
+		return <Redirect to="/login" />;
+	  }
 	const { phonenumber } = props.user;
 	const [depositAmount, setDepositAmount] = useState("");
 	const [message, setMessage] = useState("");
