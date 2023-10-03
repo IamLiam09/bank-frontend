@@ -17,25 +17,22 @@ import DepositForm from "./pages/DepositPage.js";
 import TransferForm from "./pages/TransferPage.js";
 
 const httpLink = createHttpLink({
-	uri: "https://bankbankend2.onrender.com/graphql",
+	uri: "http://localhost:5000/graphql",
 });
 const authLink = setContext((_, { headers }) => {
 	// Get the authentication token from wherever you've stored it
-	const token = localStorage.getItem("authToken"); // Example: Local Storage
-	console.log(headers)
-	console.log(token)
+	const token = localStorage.getItem("authToken"); 
 	// Return the headers to the context so HTTP link can read them
 	const enhancedHeaders = token
-    ? {
-        ...headers,
-        authorization: `Bearer ${token}`,
-      }
-    : headers;
+		? {
+				...headers,
+				authorization: `Bearer ${token}`,
+		  }
+		: headers;
 
 	return {
 		headers: enhancedHeaders,
 	};
-	
 });
 const client = new ApolloClient({
 	link: authLink.concat(httpLink),
@@ -45,7 +42,6 @@ function App() {
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 	const [userData, setUserData] = useState(null);
 	const handleLogin = (user) => {
-		setIsAuthenticated(true);
 		setUserData(user);
 	};
 	const updateUserBalance = (newBalance) => {
@@ -57,16 +53,13 @@ function App() {
 				<div>
 					<Switch>
 						<Route exact path="/" component={RegisterForm} />
-						<Route
-							path="/login"
-							render={(props) => <LoginForm onLogin={handleLogin} {...props} />}
-						/>
+						<Route path="/login" render={(props) => <LoginForm onLogin={handleLogin} {...props} />} />
 						<Route
 							exact
 							path="/home"
 							render={(props) => (
 								<AuthMiddleware>
-									<HomePage user={userData} {...props} />
+									<HomePage  {...props} />
 								</AuthMiddleware>
 							)}
 						/>

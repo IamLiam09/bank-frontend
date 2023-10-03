@@ -5,9 +5,13 @@ import { Link, Redirect } from "react-router-dom";
 
 function TransferForm(props) {
 	const token = localStorage.getItem("authToken");
-	if (!token) {
+	const tokenExpiration = localStorage.getItem("authTokenExpiration");
+	if (!token || (tokenExpiration && Date.now() > tokenExpiration)) {
 		return <Redirect to="/login" />;
-	  }
+	}
+	if (!props.user) {
+		return <Redirect to="/login" />;
+	}
 	const { phonenumber } = props.user;
 	const [formData, setFormData] = useState({
 		amount: "",
@@ -46,22 +50,20 @@ function TransferForm(props) {
 			const { data } = await transferUser({
 				variables: {
 					transferInput: {
-						sourcePhoneNumber: phonenumber, // Replace with actual phone number
+						sourcePhoneNumber: phonenumber,
 						amount: parseFloat(formData.amount),
 						destinationPhoneNumber: formData.phonenumber,
+						type: "TRANSFER",
 					},
 				},
 			});
-			console.log(data.transferUser);
 			if (data && data.transferMoney) {
-				setMessage(
-					`transfer successful`
-				);
+				setMessage(`transfer successful`);
 			} else {
 				setMessage("transfer failed.");
 			}
 		} catch (error) {
-			setMessage(`transfer error: ${error.message}`);
+			setMessage(`${error.message}`);
 		}
 	};
 
