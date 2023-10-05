@@ -17,7 +17,7 @@ import DepositForm from "./pages/DepositPage.js";
 import TransferForm from "./pages/TransferPage.js";
 
 const httpLink = createHttpLink({
-	uri: "https://bankbankend2.onrender.com/graphql",
+	uri: "http://localhost:5000/graphql",
 });
 const authLink = setContext((_, { headers }) => {
 	// Get the authentication token from wherever you've stored it
