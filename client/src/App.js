@@ -17,11 +17,11 @@ import DepositForm from "./pages/DepositPage.js";
 import TransferForm from "./pages/TransferPage.js";
 
 const httpLink = createHttpLink({
-	uri: " https://bankbankend2.onrender.com/graphql",
+	uri: "https://bankbankend2.onrender.com/graphql",
 });
 const authLink = setContext((_, { headers }) => {
 	// Get the authentication token from wherever you've stored it
-	const token = localStorage.getItem("authToken"); 
+	const token = localStorage.getItem("authToken");
 	// Return the headers to the context so HTTP link can read them
 	const enhancedHeaders = token
 		? {
@@ -47,11 +47,11 @@ function App() {
 	const updateUserBalance = (newBalance) => {
 		if (userData) {
 			const updatedUser = {
-			  ...userData,
-			  balance: newBalance,
+				...userData,
+				balance: newBalance,
 			};
 			setUserData(updatedUser);
-		  }
+		}
 	};
 	return (
 		<ApolloProvider client={client}>
@@ -59,7 +59,10 @@ function App() {
 				<div>
 					<Switch>
 						<Route exact path="/" component={RegisterForm} />
-						<Route path="/login" render={(props) => <LoginForm onLogin={handleLogin} {...props} />} />
+						<Route
+							path="/login"
+							render={(props) => <LoginForm onLogin={handleLogin} {...props} />}
+						/>
 						<Route
 							exact
 							path="/home"
